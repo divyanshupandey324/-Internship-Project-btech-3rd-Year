@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Owner Dashboard{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <h1 class="mb-4">Welcome, {{ session['owner_name'] }}</h1>
+
+  <a href="{{ url_for('add_house') }}" class="btn btn-dark mb-4">➕ Add New House</a>
+
+  <h3 class="mb-3">Your Houses</h3>
+
+  {% for house in houses %}
+  <div class="card mb-4 shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title">{{ house.title }}</h5>
+      <p class="mb-1"><strong>Type:</strong> {{ house.bhk_type }}</p>
+      <p class="mb-1"><strong>Rent:</strong> ₹{{ house.rent }}</p>
+      <p><strong>Address:</strong> {{ house.address }}</p>
+
+      <!-- Customer Bookings -->
+      <h6 class="mt-3">Bookings:</h6>
+      {% if house.booking %}
+        <ul class="list-group">
+          {% for b in house.booking %}
+          <li class="list-group-item">
+            <strong>{{ b.name }}</strong> ({{ b.email }}, {{ b.phone }})  
+            <br>
+            <small>📅 {{ b.date.strftime('%Y-%m-%d %H:%M') }}</small>  
+            <span class="badge bg-info text-dark ms-2">{{ b.status }}</span>
+          </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-muted">No bookings yet.</p>
+      {% endif %}
+    </div>
+  </div>
+  {% else %}
+  <p class="text-muted">You have not added any houses yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}

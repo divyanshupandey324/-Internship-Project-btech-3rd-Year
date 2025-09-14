@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ house.title }}{% endblock %}
+{% block content %}
+  <h1>{{ house.title }}</h1>
+  <p><strong>Type:</strong> {{ house.bhk_type }}</p>
+  <p><strong>Rent:</strong> ₹{{ house.rent }}</p>
+  <p><strong>Address:</strong> {{ house.address }}</p>
+  <p>{{ house.description }}</p>
+
+  <div class="row">
+    {% for img in house.images %}
+      <div class="col-md-4 mb-3">
+        <img src="{{ url_for('uploaded_file', filename=img.filename) }}" class="img-fluid rounded">
+      </div>
+    {% endfor %}
+  </div>
+
+  <h3>Book a Visit</h3>
+  <form method="POST" action="{{ url_for('book_visit', house_id=house.id) }}">
+    <div class="mb-2"><input type="text" name="name" class="form-control" placeholder="Your Name" required></div>
+    <div class="mb-2"><input type="email" name="email" class="form-control" placeholder="Your Email" required></div>
+    <div class="mb-2"><input type="text" name="phone" class="form-control" placeholder="Phone"></div>
+    <div class="mb-2"><input type="datetime-local" name="date" class="form-control" required></div>
+    <button type="submit" class="btn btn-success">Book Visit</button>
+  </form>
+{% endblock %}
