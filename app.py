@@ -188,11 +188,8 @@ def add_house():
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+import os
 
-# ---------------- Run ----------------
-if __name__ == '__main__':
-    # This block is only for local development
-    # Do not use this for production
-    with app.app_context():
-        db.create_all()
-    app.run(debug=True)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))  # Use Render's PORT env variable
+    app.run(host="0.0.0.0", port=port)
